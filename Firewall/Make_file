@@ -1,0 +1,24 @@
+ROOT_PATH := ${PWD}
+BUILD_DIR := ${ROOT_PATH}/build
+HEADER_DIR := ${ROOT_PATH}/header
+SOURCE_DIR := ${ROOT_PATH}/source
+
+all : Firewall
+
+Firewall: main.o packet.o http.o
+	g++ -g -o ${BUILD_DIR}/Firewall ${BUILD_DIR}/main.o ${BUILD_DIR}/packet.o ${BUILD_DIR}http.o -std=c++11 -lnetfilter_queue
+
+main.o: make_build_folder
+	g++ -g -c -o ${BUILD_DIR}/main.o ${SOURCE_DIR}/main.cpp
+
+packet.o: make_build_folder
+	g++ -g -c -o ${BUILD_DIR}/packet.o ${SOURCE_DIR}/packet.cpp
+
+http.o: make_build_folder
+	g++ -g -c -o ${BUILD_DIR}/http.o ${SOURCE_DIR}/http.cpp
+
+make_build_folder:
+	mkdir -p ${BUILD_DIR}
+
+clean:
+rm -f ${BUILD_DIR}/*
